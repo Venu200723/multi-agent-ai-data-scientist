@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-agent-ds"
+version = "0.1.0"
+description = "Multi-Agent Autonomous AI Data Scientist — tabular DS pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24",
+  "scikit-learn>=1.3",
+  "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "streamlit>=1.28"]
+
+[project.scripts]
+multi-agent-ds = "multi_agent_ds.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["multi_agent_ds*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
