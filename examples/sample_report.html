@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Pipeline Report</title><style>body{font-family:system-ui,-apple-system,sans-serif;max-width:920px;margin:2rem auto;padding:0 1rem;line-height:1.55;color:#222}code{background:#f5f5f5;padding:1px 4px;border-radius:3px}table{border-collapse:collapse;margin:1rem 0;width:100%}td,th{border:1px solid #ccc;padding:.4rem .65rem;text-align:left}th{background:#f0f4f8} img{max-width:100%;height:auto;margin:.5rem 0}li{margin-left:1rem}</style></head><body><h1>Multi-Agent AI Data Scientist — Pipeline Report</h1>
+<br/>
+<p><strong>Generated:</strong> 2026-09-18 09:22</p>
+<p><strong>Source CSV:</strong> <code>sample.csv</code></p>
+<p><strong>Target:</strong> <code>churn</code></p>
+<p><strong>Task:</strong> <code>classification</code></p>
+<br/>
+<h2>1. Cleaning Agent</h2>
+<br/>
+<li>Shape: <code>(403, 12)</code> → <code>(400, 12)</code></li>
+<li>Imputed numeric &#x27;total_charges&#x27; with median=1881</li>
+<li>Imputed categorical &#x27;internet_service&#x27; with mode=&#x27;Fiber&#x27;</li>
+<li>Removed 3 duplicate rows</li>
+<br/>
+<h2>2. EDA Agent</h2>
+<br/>
+<li>Rows/cols: <strong>400</strong> × <strong>12</strong> (numeric=5, categorical=7)</li>
+<li>Missing overall: <strong>0.00%</strong></li>
+<li>Target profile: <code>{&#x27;type&#x27;: &#x27;numeric&#x27;, &#x27;mean&#x27;: 0.235, &#x27;std&#x27;: 0.4245298151011003, &#x27;min&#x27;: 0.0, &#x27;max&#x27;: 1.0}</code></li>
+<li>Top correlations:</li>
+<p>  - <code>tenure_months</code> ↔ <code>total_charges</code>: <strong>0.803</strong></p>
+<p>  - <code>monthly_charges</code> ↔ <code>total_charges</code>: <strong>0.533</strong></p>
+<p>  - <code>tenure_months</code> ↔ <code>churn</code>: <strong>-0.248</strong></p>
+<p>  - <code>monthly_charges</code> ↔ <code>churn</code>: <strong>0.175</strong></p>
+<p>  - <code>total_charges</code> ↔ <code>churn</code>: <strong>-0.136</strong></p>
+<li>Figure: <code>artifacts/eda_histograms.png</code></li>
+<p>  <img alt="eda_histograms.png" src="artifacts/eda_histograms.png"/></p>
+<li>Figure: <code>artifacts/eda_correlation.png</code></li>
+<p>  <img alt="eda_correlation.png" src="artifacts/eda_correlation.png"/></p>
+<br/>
+<h2>3. ML Agent</h2>
+<br/>
+<li>Train/test sizes: <strong>300</strong> / <strong>100</strong></li>
+<li>Holdout metrics:</li>
+<p>  - <strong>accuracy</strong>: <code>0.7800</code></p>
+<p>  - <strong>f1_weighted</strong>: <code>0.7080</code></p>
+<p>  - <strong>roc_auc</strong>: <code>0.6254</code></p>
+<br/>
+<h2>4. Explain Agent</h2>
+<br/>
+<p>Offline summary — classification model holdout metrics: accuracy=0.780, f1_weighted=0.708, roc_auc=0.625. Strongest drivers by permutation importance: contract (0.022), tenure_months (0.012), internet_service (0.012). Use these features first when debugging predictions or collecting better data.</p>
+<br/>
+<table>
+<tr><th>Feature</th><th>Importance</th><th>Std</th></tr>
+<tr><td><code>contract</code></td><td>0.0220</td><td>0.0098</td></tr>
+<tr><td><code>tenure_months</code></td><td>0.0120</td><td>0.0098</td></tr>
+<tr><td><code>internet_service</code></td><td>0.0120</td><td>0.0075</td></tr>
+<tr><td><code>monthly_charges</code></td><td>0.0100</td><td>0.0089</td></tr>
+<tr><td><code>total_charges</code></td><td>0.0080</td><td>0.0075</td></tr>
+<tr><td><code>tech_support</code></td><td>0.0040</td><td>0.0049</td></tr>
+<tr><td><code>senior_citizen</code></td><td>0.0040</td><td>0.0049</td></tr>
+<tr><td><code>partner</code></td><td>0.0040</td><td>0.0049</td></tr>
+<tr><td><code>customer_id</code></td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td><code>payment_method</code></td><td>0.0000</td><td>0.0110</td></tr>
+</table>
+<br/>
+<li>Figure: <code>artifacts/feature_importance.png</code></li>
+<p>  <img alt="feature_importance.png" src="artifacts/feature_importance.png"/></p>
+<br/>
+<h2>Agent action logs</h2>
+<br/>
+<h3>cleaning</h3>
+<li>Imputed numeric &#x27;total_charges&#x27; with median=1881</li>
+<li>Imputed categorical &#x27;internet_service&#x27; with mode=&#x27;Fiber&#x27;</li>
+<li>Removed 3 duplicate rows</li>
+<br/>
+<h3>eda</h3>
+<li>Computed correlations; top pair=(&#x27;tenure_months&#x27;, &#x27;total_charges&#x27;, 0.8025478914697876)</li>
+<li>Profiled target &#x27;churn&#x27;</li>
+<li>Saved histograms → eda_histograms.png</li>
+<li>Saved correlation heatmap → eda_correlation.png</li>
+<br/>
+<h3>ml</h3>
+<li>Inferred task: classification</li>
+<li>Holdout metrics: {&#x27;accuracy&#x27;: 0.78, &#x27;f1_weighted&#x27;: 0.708028293545535, &#x27;roc_auc&#x27;: 0.6253529079616037}</li>
+<br/>
+<h3>explain</h3>
+<li>Computed permutation importance (accuracy)</li>
+<li>Saved importance plot → feature_importance.png</li>
+<li>No OPENAI_API_KEY — using offline summary</li>
+<br/>
+<hr/>
+<p>_Produced by <code>multi_agent_ds</code> — Multi-Agent Autonomous AI Data Scientist._</p></body></html>
