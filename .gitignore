@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.streamlit/secrets.toml
+*.log
+.DS_Store
+
+# Keep committed demo plots under artifacts/; ignore ad-hoc local runs elsewhere
+# (tracked PNGs in artifacts/ are intentional demo assets)
